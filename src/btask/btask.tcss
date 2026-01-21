@@ -4,7 +4,7 @@ Screen {
     background: #0a0a0a;
 }
 
-/* Header styling - CRT orange glow */
+/* Header styling  CRT orange glow */
 Header {
     height: 3;
     background: #1a0f00;
@@ -29,7 +29,7 @@ Footer > .footer--key {
     color: #ffaa33;
 }
 
-/* Button styling - CRT buttons */
+/* Button styling  CRT buttons */
 Button {
     background: #2a1500;
     color: #ff8c00;
@@ -59,7 +59,7 @@ Button.-primary:hover {
     color: #0a0a0a;
 }
 
-/* DataTable styling - classic terminal grid */
+/* DataTable styling  classic terminal grid */
 DataTable {
     background: #0a0a0a;
     color: #ff8c00;
@@ -111,7 +111,7 @@ Container {
     background: #0a0a0a;
 }
 
-/* Scrollbars - keep them subtle but visible */
+/* Scrollbars keep them subtle but visible */
 ScrollBar {
     background: #1a0f00;
 }
@@ -135,13 +135,13 @@ ScrollBar:hover > .scrollbar--thumb {
     color: #ffaa33;
 }
 
-/* Error styling - redder orange */
+/* Error styling redder orange */
 .error {
     color: #ff4400;
     text-style: bold;
 }
 
-/* Success styling - amber/yellow */
+/* Success styling amber/yellow */
 .success {
     color: #ffcc00;
     text-style: bold;
