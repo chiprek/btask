@@ -178,8 +178,15 @@ Sidebar{
     height: 100%;
     dock: left;
     background: #1a0f00;
+    border: solid #ff6600;
 }
 
 Sidebar.-hidden{
     display: none;
+}
+
+#work-orders{
+    width: 28;
+    text-align: center;
+    border: solid #ff6600;
 }
