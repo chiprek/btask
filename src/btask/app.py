@@ -9,17 +9,25 @@ from textual.widgets import (
     ListItem,
     ListView,
     Log,
+    ProgressBar,
 )
+from total import get_total
+
+
+class PD_Menu(Container):
+    def compose(self) -> ComposeResult:
+        with Container():
+            yield Button(label="yes", id="view-port-button")
+            with Horizontal():
+                yield ProgressBar(total=get_total())
 
 
 class ProjectDetails(Container):
     def compose(self) -> ComposeResult:
         with Container(id="view-port"):
             yield Label("Place-holder", id="place-holder")
-            with Vertical(
-                name="view-port-footer", id="view-port-footer", classes="-hidden"
-            ):
-                yield Button(label="yes", id="view-port-button")
+            with Vertical():
+                yield PD_Menu(classes="-hidden")
 
     def log_to_ProjectDetails(self, msg: str) -> None:
         self.query_one(Log).write_line(msg)
@@ -42,7 +50,7 @@ class BTaskApp(App[None]):
 
     BINDINGS = [
         ("w", "toggle_sidebar", "Toggle Sidebar"),
-        ("m", "toggle_project_details", "toggle project details"),
+        ("m", "toggle_pd_menu", "toggle menu"),
     ]
 
     def compose(self) -> ComposeResult:
@@ -58,5 +66,5 @@ class BTaskApp(App[None]):
     def action_toggle_sidebar(self) -> None:
         self.query_one(Sidebar).toggle_class("-hidden")
 
-    def action_toggle_ProjectDetails_menu(self) -> None:
-        self.query_one(ProjectDetails).toggle_class("view-port-footer.-hidden")
+    def action_toggle_pd_menu(self) -> None:
+        self.query_one(PD_Menu).toggle_class("-hidden")
