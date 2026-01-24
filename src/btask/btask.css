@@ -1,0 +1,234 @@
+/* Retro Orange CRT Terminal Theme */
+
+Screen {
+    background: #0a0a0a;
+}
+
+/* Header styling  CRT orange glow */
+Header {
+    height: 3;
+    background: #1a0f00;
+    color: #ff8c00;
+    text-style: bold;
+    border: solid #ff6600;
+}
+
+/* Footer styling */
+Footer {
+    background: #1a0f00;
+    color: #ff8c00;
+}
+
+Footer > .footer--highlight {
+    background: #ff6600;
+    color: #0a0a0a;
+}
+
+Footer > .footer--key {
+    background: #332200;
+    color: #ffaa33;
+}
+
+/* Button styling  CRT buttons */
+Button {
+    background: #2a1500;
+    color: #ff8c00;
+    border: solid #ff6600;
+    text-style: bold;
+}
+
+Button:hover {
+    background: #3a2000;
+    color: #ffaa33;
+    border: solid #ffaa33;
+}
+
+Button:focus {
+    background: #ff6600;
+    color: #0a0a0a;
+    text-style: bold;
+}
+
+Button.-primary {
+    background: #ff6600;
+    color: #0a0a0a;
+}
+
+Button.-primary:hover {
+    background: #ff8c00;
+    color: #0a0a0a;
+}
+
+/* DataTable styling  classic terminal grid */
+DataTable {
+    height: auto;
+    background: #0a0a0a;
+    color: #ff8c00;
+    border: solid #ff6600;
+}
+
+DataTable > .datatable-header {
+    height: auto;
+    background: #2a1500;
+    color: #ffaa33;
+    text-style: bold;
+}
+
+DataTable > .datatable--cursor {
+    background: #ff6600;
+    color: #0a0a0a;
+}
+
+DataTable > .datatable--hover {
+    background: #1a0f00;
+}
+
+/* Input fields */
+Input {
+    background: #0a0a0a;
+    color: #ff8c00;
+    border: solid #ff6600;
+}
+
+Input:focus {
+    border: solid #ffaa33;
+    background: #1a0f00;
+}
+
+Input > .input--placeholder {
+    color: #664400;
+}
+
+/* Labels */
+Label {
+    color: #ff8c00;
+}
+
+Static {
+    color: #ff8c00;
+}
+
+/* Containers */
+Container {
+    background: #0a0a0a;
+}
+
+/* Scrollbars keep them subtle but visible */
+ScrollBar {
+    background: #1a0f00;
+}
+
+ScrollBar > .scrollbar--thumb {
+    background: #ff6600;
+}
+
+ScrollBar:hover > .scrollbar--thumb {
+    background: #ff8c00;
+}
+
+/* Selection styling */
+*:focus {
+    border: solid #ffaa33;
+}
+
+/* Add some glow effect with text styling */
+.glow {
+    text-style: bold;
+    color: #ffaa33;
+}
+
+/* Error styling redder orange */
+.error {
+    color: #ff4400;
+    text-style: bold;
+}
+
+/* Success styling amber/yellow */
+.success {
+    color: #ffcc00;
+    text-style: bold;
+}
+
+#sidebar {
+    width: 30;
+    border: solid #ff6600;
+}
+
+#sidebar-title {
+    background: #2a1500;
+    color: #ffaa33;
+    text-style: bold;
+    text-align: center;
+    height: 3;
+    content-align: center middle;
+}
+
+#project-list {
+    height: 1fr;
+}
+
+#main {
+    padding: 0;  /* Remove any padding */
+}
+
+DataTable {
+    margin: 0;   /* Remove any margin */
+}
+
+Sidebar{
+    width: 30;
+    height: 100%;
+    dock: left;
+    background: #1a0f00;
+    border: solid #ff6600;
+}
+
+Sidebar.-hidden{
+    display: none;
+}
+
+#work-orders{
+    width: 28;
+    text-align: center;
+    border: solid #ff6600;
+}
+
+#place-holder{
+    text-align: center;
+    width: 100%;
+    height: 3;
+    border: solid #ff6600;
+    background: #1a0f00;
+}
+
+#view-port{
+    width: 100%;
+    height: 100%;
+}
+
+#view-port-footer{
+    dock: bottom;
+    width: 100%;
+    height: auto;
+    border: solid #ff6600;
+}
+.-vp-menu-hidden{
+    display: none;
+}
+
+#view-port-button{
+    height: 3;
+}
+
+ProjectDetails{
+    border: solid #ff6600;
+}
+PD_Menu{
+    border: solid #ff6600;
+    dock: bottom;
+    width: 100%;
+    height: 5;
+}
+PD_Menu.-hidden{
+    display: none;
+}
