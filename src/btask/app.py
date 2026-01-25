@@ -4,8 +4,6 @@ from textual.widgets import (
     Footer,
     Header,
 )
-from total import get_total
-from widgets.pd_menu import PD_Menu
 from widgets.project_details import ProjectDetails
 from widgets.sidebar import Sidebar
 
@@ -34,3 +32,7 @@ class BTaskApp(App[None]):
 
     def action_toggle_pd_menu(self) -> None:
         self.query_one("#pd-menu").toggle_class("-hidden")
+
+    def on_sidebar_project_selected(self, message: Sidebar.ProjectSelected) -> None:
+        project_details = self.query_one(ProjectDetails)
+        project_details.load_project(message.project_id)
