@@ -2,11 +2,15 @@ from config import BTaskConfig
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.message import Message
-from textual.widgets import Label, ListItem, ListView, Log
+from textual.widgets import Label, ListItem, ListView
 
 
 class Sidebar(Container):
     TITLE = "Work_Orders"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.projects = []
 
     class ProjectSelected(Message):
         def __init__(self, project_id: str, project_name: str):
@@ -20,33 +24,35 @@ class Sidebar(Container):
 
     def on_mount(self) -> None:
         self.load_projects()
-        self.projects = []
 
     def load_projects(self) -> None:
+        """Load projects from storage and populate ListView"""
         config = BTaskConfig()
-        projects = config.load_projects()
+        self.projects = config.load_projects()
 
-        if not projects:
-            projects = [
-                {"name": "SPI #2030", "id": "2030"},
-                {"name": "Liberty #2031", "id": "2031"},
-                {"name": "Nextier #2032", "id": "2032"},
-                {"name": "Tier 1 #2033 ", "id": "2033"},
+        if not self.projects:
+            self.projects = [
+                {"name": "Wireline Truck Alpha", "id": "wt_alpha"},
+                {"name": "Wireline Truck Beta", "id": "wt_beta"},
+                {"name": "Shop Repairs", "id": "shop_repairs"},
             ]
-            config.save_projects(projects)
+            config.save_projects(self.projects)
 
         project_list = self.query_one("#project-list", ListView)
-        for project in projects:
+        for project in self.projects:
             project_list.append(ListItem(Label(project["name"])))
 
     def on_list_view_selected(self, event: ListView.Selected) -> None:
+        """When a project is clicked in the list"""
         project_list = self.query_one("#project-list", ListView)
-        selected_index = project_list.index
+        selected_item = event.item
 
-        if selected_index is not None and selected_index < len(self.projects):
-            project = self.projects[selected_index]
+        all_items = list(project_list.children)
+        try:
+            selected_index = all_items.index(selected_item)
 
-            self.post_message(self.ProjectSelected(project["id"], project["name"]))
-
-    def log_to_sidebar(self, msg: str) -> None:
-        self.query_one(Log).write_line(msg)
+            if selected_index < len(self.projects):
+                project = self.projects[selected_index]
+                self.post_message(self.ProjectSelected(project["id"], project["name"]))
+        except ValueError:
+            pass  # Item not found in list

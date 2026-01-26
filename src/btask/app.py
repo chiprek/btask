@@ -34,5 +34,6 @@ class BTaskApp(App[None]):
         self.query_one("#pd-menu").toggle_class("-hidden")
 
     def on_sidebar_project_selected(self, message: Sidebar.ProjectSelected) -> None:
+        """Handle project selection from sidebar"""
         project_details = self.query_one(ProjectDetails)
         project_details.load_project(message.project_id)
