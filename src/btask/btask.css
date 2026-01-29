@@ -216,8 +216,13 @@ Sidebar.-hidden {
     display: none;
 }
 
-#view-port-button {
-    height: 3;
+#view-port-button-add {
+}
+
+#view-port-button-edit {
+}
+
+#view-port-button-delete {
 }
 
 ProjectDetails {
