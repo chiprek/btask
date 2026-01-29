@@ -1,8 +1,13 @@
 import json
+import os
 from pathlib import Path
 from typing import Any, Dict, List
 
+from dotenv import load_dotenv
 from platformdirs import user_config_dir, user_data_dir
+
+# load enviroment variable from .env file
+load_dotenv()
 
 
 class BTaskConfig:
@@ -21,11 +26,15 @@ class BTaskConfig:
         self.config_file = self.config_dir / "config.json"
         self.projects_file = self.data_dir / "projects.json"
 
+        # load admin PIN from .env
+        # set to 0000 if not set
+        self.admin_pin = os.getenv("BTASK_ADMIN_PIN", "0000")
+
         # Initialize files with defaults if they don't exist
         self._initialize_files()
 
     def _initialize_files(self) -> None:
-        """Create default files if they don't exist"""
+        # Create default files if they don't exist
         if not self.config_file.exists():
             default_config = {
                 "theme": "crt_orange",
@@ -102,3 +111,6 @@ class BTaskConfig:
             self.save_projects(filtered)
             return True
         return False
+
+    def verify_admin_pin(self, pin: str) -> bool:
+        return pin == self.admin_pin
