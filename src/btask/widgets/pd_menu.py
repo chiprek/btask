@@ -12,7 +12,7 @@ class PD_Menu(Container):
     def compose(self) -> ComposeResult:
         with HorizontalGroup():
             yield Button(label="Add Kit", id="add-kit")
-            yield Button(label="Edit Kit", id="edit=kit")
+            yield Button(label="Edit Kit", id="edit-kit")
             yield Button(label="Delete Kit", id="view-port-button-delete")
 
     @on(Button.Pressed, "#add-Kit")
