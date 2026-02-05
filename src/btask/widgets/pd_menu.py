@@ -6,6 +6,7 @@ from textual.widgets import Button, ProgressBar
 
 from .add_kit_dialog import AddKitDialog
 from .pin_prompt import PinPrompt
+from .project_details import ProjectDetails
 
 
 class PD_Menu(Container):
@@ -22,7 +23,6 @@ class PD_Menu(Container):
     @work
     async def add_kit_workflow(self) -> None:
         entered_pin = await self.app.push_screen_wait(PinPrompt())
-
         if entered_pin is None:
             return
 
@@ -35,4 +35,35 @@ class PD_Menu(Container):
         if kit_data is None:
             return
 
+        project_details = self.app.query_one(ProjectDetails)
+        current_project_id = project_details.current_project_id
+
+        if not current_project_id:
+            self.app.notify("No project selected", severity="error")
+            return
+
+        project = config.get_project_by_id(current_project_id)
+        if not project:
+            self.app.notify("Project not found", severity="error")
+            return
+
+        if "kits" not in project:
+            project["kits"] = []
+
+        project["kits"].append(
+            {
+                "name": kit_data["name"],
+                "status": kit_data["status"],
+                "quantity": int(kit_data["quantity"]) if kit_data["quantity"] else 0,
+                "notes": kit_data["notes"],
+            }
+        )
+
+        # Save the updated project
+        config.update_project(current_project_id, project)
+
+        # Step 6: Refresh the display
+        project_details.refresh_kit_table()
+
+        # Step 7: Success!
         self.app.notify(f"Kit '{kit_data['name']}' added!", severity="information")
