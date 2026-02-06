@@ -49,10 +49,10 @@ class ProjectDetails(Container):
         if not table.columns:
             table.add_columns("Kit Name", "Status", "Quantity", "Notes", "completed")
 
-        kits = project.get("Kits", [])
+        kits = project.get("kits", [])
 
         if kits:
-            for kit in project["kits"]:
+            for kit in kits:
                 table.add_row(
                     kit.get("name", ""),
                     kit.get("status", ""),
