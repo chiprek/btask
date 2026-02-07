@@ -48,18 +48,20 @@ class ProjectDetails(Container):
         table.clear()
 
         if not table.columns:
-            table.add_columns("Kit Name", "Status", "Quantity", "Notes", "completed")
+            table.add_columns("Kit Name", "Status", "Quantity", "Notes", "✓")
 
         kits = project.get("kits", [])
 
         if kits:
             for kit in kits:
+                completed = kit.get("completed", False)
+                check_symbol = "✓" if completed else "☐"
                 table.add_row(
                     kit.get("name", ""),
                     kit.get("status", ""),
                     str(kit.get("quantity", 0)),
                     kit.get("notes", ""),
-                    kit.get("Completed", False),
+                    check_symbol,
                 )
         else:
             table.add_row("No kits added", "-", "-", "-", "-")
