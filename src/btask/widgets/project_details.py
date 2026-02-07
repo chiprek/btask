@@ -1,4 +1,5 @@
 from config import BTaskConfig
+from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
 from textual.widgets import DataTable, Label
@@ -62,3 +63,33 @@ class ProjectDetails(Container):
                 )
         else:
             table.add_row("No kits added", "-", "-", "-", "-")
+
+    @on(DataTable.CellSelected, "#kits-table")
+    def handle_cell_selected(self, event: DataTable.CellSelected) -> None:
+
+        if event.coordinate.column != 4:
+            return
+
+        if not self.current_project_id:
+            return
+
+        config = BTaskConfig()
+        project = config.get_project_by_id(self.current_project_id)
+
+        if not project or "kits" not in project:
+            return
+
+        row_index = event.coordinate.row
+
+        if row_index >= len(project["kits"]):
+            return
+
+        kit = project["kits"][row_index]
+        kit["completed"] = not kit.get("completed", False)
+
+        config.update_project(self.current_project_id, project)
+
+        self.refresh_kit_table()
+
+        status = "completed" if kit["completed"] else "incomplete"
+        self.app.notify(f"Kit status updated to {status}")
