@@ -4,9 +4,10 @@ from config import BTaskConfig
 from textual import log, on, work
 from textual.app import ComposeResult
 from textual.containers import Container, Horizontal, HorizontalGroup
-from textual.widgets import Button, ProgressBar
+from textual.widgets import Button, DataTable, ProgressBar
 
 from .add_kit_dialog import AddKitDialog
+from .confirm_dialog import ConfirmDialog
 from .pin_prompt import PinPrompt
 
 if TYPE_CHECKING:
@@ -84,7 +85,7 @@ class PD_Menu(Container):
         # log(f"Kits after adding: {project['kits']}")
 
         # Save the updated project
-        # success = config.update_project(current_project_id, project)
+        success = config.update_project(current_project_id, project)
         # log(f"Save successful: {success}")
 
         # Step 6: Refresh the display
@@ -94,3 +95,65 @@ class PD_Menu(Container):
 
         # Step 7: Success!
         self.app.notify(f"Kit '{kit_data['name']}' added!", severity="information")
+
+    @on(Button.Pressed, "#view-port-button-delete")
+    def handle_delete_kit_click(self) -> None:
+        self.delete_kit_workflow()
+
+    @work
+    async def delete_kit_workflow(self) -> None:
+        from .project_details import ProjectDetails
+
+        project_details = self.app.query_one(ProjectDetails)
+        current_project_id = project_details.current_project_id
+
+        if not current_project_id:
+            self.app.notify("No project selected", severity="error")
+            return
+
+        table = self.app.query_one("#kits-table", DataTable)
+
+        if table.cursor_row is None:
+            self.app.notify(
+                "No kit selected. click on a kit first.", severity="warning"
+            )
+            return
+
+        selected_row_index = table.cursor_row
+
+        config = BTaskConfig()
+        project = config.get_project_by_id(current_project_id)
+
+        if not project or "kits" not in project:
+            self.app.notify("Project not found", severity="error")
+            return
+
+        if selected_row_index >= len(project["kits"]):
+            self.app.notify("Invalid kit selection", severity="error")
+            return
+
+        kit_to_delete = project["kits"][selected_row_index]
+        kit_name = kit_to_delete.get("name", "Unknown")
+
+        entered_pin = await self.app.push_screen_wait(PinPrompt())
+        if entered_pin is None:
+            return
+
+        if not config.verify_admin_pin(entered_pin):
+            self.app.notify("Incorrect PIN", severity="error")
+            return
+
+        confirmed = await self.app.push_screen_wait(
+            ConfirmDialog(f"Delete kit '{kit_name}'?")
+        )
+
+        if not confirmed:
+            return
+
+        del project["kits"][selected_row_index]
+
+        config.update_project(current_project_id, project)
+
+        project_details.refresh_kit_table()
+
+        self.app.notify(f"Kit '{kit_name}' deleted", severity="information")
