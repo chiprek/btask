@@ -77,6 +77,7 @@ class PD_Menu(Container):
                 "status": kit_data["status"],
                 "quantity": int(kit_data["quantity"]) if kit_data["quantity"] else 0,
                 "notes": kit_data["notes"],
+                "completed": False,
             }
         )
 
