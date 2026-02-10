@@ -18,7 +18,7 @@ class EditKitDialog(ModalScreen):
             yield Select(
                 options=[
                     ("Pending", "Pending"),
-                    ("In Progress", "In progress"),
+                    ("In Progress", "In Progress"),
                     ("Complete", "Complete"),
                 ],
                 id="edit-kit-status",
