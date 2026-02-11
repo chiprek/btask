@@ -1,5 +1,3 @@
-from typing import TYPE_CHECKING
-
 from config import BTaskConfig
 from textual import on, work
 from textual.app import ComposeResult
@@ -10,9 +8,6 @@ from .add_kit_dialog import AddKitDialog
 from .confirm_dialog import ConfirmDialog
 from .edit_kit_dialog import EditKitDialog
 from .pin_prompt import PinPrompt
-
-if TYPE_CHECKING:
-    from .project_details import ProjectDetails
 
 
 class PD_Menu(Container):
