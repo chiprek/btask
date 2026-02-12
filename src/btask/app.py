@@ -1,3 +1,4 @@
+from textual import work
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import (
@@ -14,7 +15,8 @@ class BTaskApp(App[None]):
 
     BINDINGS = [
         ("w", "toggle_sidebar", "Toggle Sidebar"),
-        ("m", "toggle_pd_menu", "toggle menu"),
+        ("m", "toggle_pd_menu", "Toggle menu"),
+        ("a", "open_admin_menu", "Admin menu"),
     ]
 
     def compose(self) -> ComposeResult:
@@ -37,3 +39,13 @@ class BTaskApp(App[None]):
         """Handle project selection from sidebar"""
         project_details = self.query_one(ProjectDetails)
         project_details.load_project(message.project_id)
+
+    @work
+    async def action_open_admin_menu(self) -> None:
+        from btask.config import BTaskConfig
+        from btask.widgets.admin_dialog import AdminDialog
+        from btask.widgets.pin_prompt import PinPrompt
+
+        entered_pin = await self.app.push_screen(PinPrompt())
+        if entered_pin is None:
+            return
