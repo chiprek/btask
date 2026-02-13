@@ -5,8 +5,8 @@ from textual.screen import ModalScreen
 from textual.widgets import Button, Label
 
 
-class AdminMenu(ModalScreen):  # Changed from AdminDialog
-    """Admin menu for managing projects"""
+class AdminMenu(ModalScreen):
+    """Admin menu for managing work-orders"""
 
     def compose(self) -> ComposeResult:
         with Container(id="admin-menu-dialog"):
