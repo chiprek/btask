@@ -1,4 +1,4 @@
-from textual import work
+from textual import log, work
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import (
@@ -42,10 +42,20 @@ class BTaskApp(App[None]):
 
     @work
     async def action_open_admin_menu(self) -> None:
-        from btask.config import BTaskConfig
-        from btask.widgets.admin_dialog import AdminDialog
-        from btask.widgets.pin_prompt import PinPrompt
+        """Open admin menu after PIN verification"""
+        from config import BTaskConfig
+        from widgets.admin_dialog import AdminMenu
+        from widgets.pin_prompt import PinPrompt
 
-        entered_pin = await self.app.push_screen(PinPrompt())
+        entered_pin = await self.push_screen_wait(PinPrompt())
+
         if entered_pin is None:
             return
+
+        config = BTaskConfig()
+        if not config.verify_admin_pin(entered_pin):
+            log("PIN incorrect")  # Add this
+            self.notify("Incorrect PIN", severity="error")
+            return
+
+        await self.push_screen(AdminMenu())
