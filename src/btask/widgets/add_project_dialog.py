@@ -24,7 +24,7 @@ class AddProjectDialog(ModalScreen):
                 )
                 yield Button("Cancel", id="cancel-project")
 
-    @on(Button.Pressed, "submit-project")
+    @on(Button.Pressed, "#submit-project")
     def handle_submit(self) -> None:
         project_data = {
             "name": self.query_one("#project-name", Input).value,
