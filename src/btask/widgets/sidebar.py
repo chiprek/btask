@@ -39,6 +39,8 @@ class Sidebar(Container):
             config.save_projects(self.projects)
 
         project_list = self.query_one("#project-list", ListView)
+
+        project_list.clear()
         for project in self.projects:
             project_list.append(ListItem(Label(project["name"])))
 
