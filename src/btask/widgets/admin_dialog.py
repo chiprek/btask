@@ -2,7 +2,7 @@ from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
 from textual.screen import ModalScreen
-from textual.widgets import Button, Label
+from textual.widgets import Button, DataTable, Label
 
 from .add_project_dialog import AddProjectDialog
 
@@ -65,8 +65,70 @@ class AdminMenu(ModalScreen):
 
     @on(Button.Pressed, "#admin-delete-project")
     def handle_delete_project(self) -> None:
-        # TODO: Delete selected project
-        self.app.notify("Delete project - TODO")
+        self.delete_project_workflow()
+
+    @work
+    async def delete_project_workflow(self) -> None:
+        from config import BTaskConfig
+
+        from .confirm_dialog import ConfirmDialog
+        from .delete_project_dialog import DeleteProjectDialog
+        from .project_details import ProjectDetails
+        from .sidebar import Sidebar
+
+        config = BTaskConfig()
+
+        all_projects = [
+            p for p in config.load_projects() if not p.get("archived", False)
+        ]
+
+        if not all_projects:
+            self.app.notify("No projects to delete", severity="warning")
+            return
+
+        selected_project_id = await self.app.push_screen_wait(
+            DeleteProjectDialog(all_projects)
+        )
+
+        if selected_project_id is None:
+            return
+
+        project = config.get_project_by_id(selected_project_id)
+
+        if not project:
+            self.app.notify("Project not found", severity="error")
+            return
+
+        project_name = project.get("name")
+        kits = project.get("kits", [])
+
+        if len(kits) == 0:
+            message = f"delete empty project '{project_name}'?"
+        else:
+            message = f"This project has {len(kits)} kit(s). Delete '{project_name}' and all its kits?"
+
+        confirmed = await self.app.push_screen_wait(ConfirmDialog(message))
+
+        if not confirmed:
+            return
+
+        success = config.delete_project(selected_project_id)
+
+        if not success:
+            self.app.notify("Failed to delete project", severity="error")
+
+        project_details = self.app.query_one(ProjectDetails)
+        if project_details.current_project_id == selected_project_id:
+            project_details.current_project_id = None
+            table = project_details.query_one("#kits-table", DataTable)
+            table.clear()
+            placeholder = project_details.query_one("#place-holder", Label)
+            placeholder.update("Select a project")
+
+        sidebar = self.app.query_one(Sidebar)
+        sidebar.load_projects()
+
+        self.app.notify(f"Project '{project_name}' deleted", severity="information")
 
     @on(Button.Pressed, "#admin-archive-project")
     def handle_archive_project(self) -> None:
