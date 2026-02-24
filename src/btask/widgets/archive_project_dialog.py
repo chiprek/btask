@@ -11,10 +11,15 @@ class ArchiveProjectDialog(ModalScreen):
         self.projects = projects
 
     def compose(self) -> ComposeResult:
-        with Container():
-            yield Label()
-            yield Select()
+        with Container(
+            id="archive-project-dialog",
+        ):
+            yield Label("Select a Project to Archive", id="dialog-title")
+            yield Select(
+                options=[(p["name"], p["id"]) for p in self.projects],
+                id="project-select",
+            )
 
         with Vertical():
-            yield Button()
-            yield Button()
+            yield Button("Archive", variant="error", id="confirm-archive")
+            yield Button("Cancel", id="cancel-archive")
