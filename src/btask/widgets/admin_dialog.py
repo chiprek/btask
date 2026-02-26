@@ -135,6 +135,10 @@ class AdminMenu(ModalScreen):
         # TODO: Archive selected project
         self.app.notify("Archive project - TODO")
 
+    @work
+    def archive_project_worflow() -> None:
+        pass
+
     @on(Button.Pressed, "#admin-view-archived")
     def handle_view_archived(self) -> None:
         # TODO: Open archived projects screen
