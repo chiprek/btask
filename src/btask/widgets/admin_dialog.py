@@ -137,7 +137,12 @@ class AdminMenu(ModalScreen):
 
     @work
     def archive_project_worflow() -> None:
-        pass
+        from config import BTaskConfig
+
+        from .archive_project_dialog import ArchiveProjectDialog
+        from .confirm_dialog import ConfirmDialog
+        from .project_details import ProjectDetails
+        from .sidebar import Sidebar
 
     @on(Button.Pressed, "#admin-view-archived")
     def handle_view_archived(self) -> None:
