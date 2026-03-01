@@ -24,18 +24,16 @@ class ArchiveProjectDialog(ModalScreen):
             yield Button("Archive", variant="error", id="confirm-archive")
             yield Button("Cancel", id="cancel-archive")
 
+    @on(Button.Pressed, "#confirm-archive")
+    def handle_archive(self) -> None:
+        project_id = self.query_one("#project-select", Select).value
 
-@on(Button.Pressed, "#confirm-archive")
-def handle_archive(self) -> None:
-    project_id = self.query_one("project-select", Select).value
+        if not project_id:
+            self.app.notify("Please select a project", severity="warning")
+            return
 
-    if not project_id:
-        self.app.notify("Please select a project", severity="warning")
-        return
+        self.dismiss(project_id)
 
-    self.dismiss(project_id)
-
-
-@on(Button.Pressed, "#cancel-archive")
-def handle_cancel(self) -> None:
-    self.dismiss(None)
+    @on(Button.Pressed, "#cancel-archive")
+    def handle_cancel(self) -> None:
+        self.dismiss(None)

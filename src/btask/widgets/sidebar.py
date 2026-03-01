@@ -28,13 +28,15 @@ class Sidebar(Container):
     def load_projects(self) -> None:
         """Load projects from storage and populate ListView"""
         config = BTaskConfig()
-        self.projects = config.load_projects()
+        all_projects = config.load_projects()
+
+        self.projects = [p for p in all_projects if not p.get("archived", False)]
 
         if not self.projects:
             self.projects = [
-                {"name": "Wireline Truck Alpha", "id": "wt_alpha"},
-                {"name": "Wireline Truck Beta", "id": "wt_beta"},
-                {"name": "Shop Repairs", "id": "shop_repairs"},
+                {"name": "Wireline Truck Alpha", "id": "wt_alpha", "archived": False},
+                {"name": "Wireline Truck Beta", "id": "wt_beta", "archived": False},
+                {"name": "Shop Repairs", "id": "shop_repairs", "archived": False},
             ]
             config.save_projects(self.projects)
 

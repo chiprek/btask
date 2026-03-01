@@ -132,8 +132,7 @@ class AdminMenu(ModalScreen):
 
     @on(Button.Pressed, "#admin-archive-project")
     def handle_archive_project(self) -> None:
-        # TODO: Archive selected project
-        self.app.notify("Archive project - TODO")
+        self.archive_project_worflow()
 
     @work
     async def archive_project_worflow(self) -> None:
@@ -191,8 +190,14 @@ class AdminMenu(ModalScreen):
 
     @on(Button.Pressed, "#admin-view-archived")
     def handle_view_archived(self) -> None:
-        # TODO: Open archived projects screen
-        self.app.notify("View archived - TODO")
+        self.view_archived_workflow()
+
+    @work
+    async def view_archived_workflow(self) -> None:
+
+        from .archived_projects_screen import ArchivedProjectsScreen
+
+        await self.app.push_screen_wait(ArchivedProjectsScreen())
 
     @on(Button.Pressed, "#admin-close")
     def handle_close(self) -> None:

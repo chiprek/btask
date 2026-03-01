@@ -71,7 +71,13 @@ class BTaskConfig:
         """Load all projects from file"""
         if self.projects_file.exists():
             with open(self.projects_file, "r") as f:
-                return json.load(f)
+                projects = json.load(f)
+
+            for project in projects:
+                if "archived" not in project:
+                    project["archived"] = False
+            return projects
+
         return []
 
     def save_projects(self, projects: List[Dict[str, Any]]) -> None:
@@ -111,6 +117,23 @@ class BTaskConfig:
             self.save_projects(filtered)
             return True
         return False
+
+    def archive_project(self, project_id: str) -> bool:
+        project = self.get_project_by_id(project_id)
+        if not project:
+            return False
+
+        project["archived"] = True
+        return self.update_project(project_id, project)
+
+    def unarchive_project(self, project_id: str) -> bool:
+        project = self.get_project_by_id(project_id)
+
+        if not project:
+            return False
+
+        project["archived"] = False
+        return self.update_project(project_id, project)
 
     def verify_admin_pin(self, pin: str) -> bool:
         return pin == self.admin_pin
