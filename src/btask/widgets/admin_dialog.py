@@ -136,13 +136,58 @@ class AdminMenu(ModalScreen):
         self.app.notify("Archive project - TODO")
 
     @work
-    def archive_project_worflow() -> None:
+    async def archive_project_worflow(self) -> None:
         from config import BTaskConfig
 
         from .archive_project_dialog import ArchiveProjectDialog
         from .confirm_dialog import ConfirmDialog
-        from .project_details import ProjectDetails
         from .sidebar import Sidebar
+
+        config = BTaskConfig()
+
+        all_projects = [
+            p for p in config.load_projects() if not p.get("archived", False)
+        ]
+
+        if not all_projects:
+            self.app.notify("no projects to archive", severity="warning")
+            return
+        selected_project_id = await self.app.push_screen_wait(
+            ArchiveProjectDialog(all_projects)
+        )
+
+        if selected_project_id is None:
+            return
+
+        project = config.get_project_by_id(selected_project_id)
+
+        if not project:
+            self.app.notify("project not found", severity="error")
+            return
+
+        project_name = project.get("name")
+        project_archived = project.get("archived")
+
+        if project_archived is True:
+            message = f"By some cosmic happenings '{project_name}' is already archived. How were you able to select it?"
+        else:
+            message = f"Archive '{project_name}'?"
+
+        confirmed = await self.app.push_screen_wait(ConfirmDialog(message))
+
+        if not confirmed:
+            return
+
+        success = config.archive_project(selected_project_id)
+
+        if not success:
+            self.app.notify("Failed archiving project", severity="error")
+            return
+
+        sidebar = self.app.query_one(Sidebar)
+        sidebar.load_projects()
+
+        self.app.notify(f"Project '{project['name']}' archived", severity="information")
 
     @on(Button.Pressed, "#admin-view-archived")
     def handle_view_archived(self) -> None:
