@@ -38,7 +38,7 @@ class ArchivedProjectsScreen(ModalScreen):
         else:
             archived_list.append(ListItem(Label("no archived projects")))
 
-    @on(Button.Pressed, "#unarchived-project")
+    @on(Button.Pressed, "#unarchive-project")
     def handle_unarchive_click(self) -> None:
         self.unarchive_workflow()
 
@@ -93,4 +93,4 @@ class ArchivedProjectsScreen(ModalScreen):
 
     @on(Button.Pressed, "#close-archived")
     def handle_close(self) -> None:
-        self.dismiss
+        self.dismiss()
