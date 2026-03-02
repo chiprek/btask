@@ -26,7 +26,7 @@ A terminal based project and kit tracker built with [Textual](https://textual.te
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/btask.git
+git clone https://github.com/chiprek/btask.git
 cd btask
 
 # Install with uv
