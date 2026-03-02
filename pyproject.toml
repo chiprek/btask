@@ -1,11 +1,23 @@
 [project]
 name = "btask"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.14"
-dependencies = [
-    "python-dotenv>=1.2.1",
-    "textual>=7.3.0",
-    "textual-dev>=1.8.0",
+description = "A terminal-based project and kit tracker for wireline truck manufaturing operations"
+license = {text = "GPL-2.0-only"}
+authors = [
+    {name = "Charles Svoboda", email = "charlessvobodajr@gmail.com"}
 ]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "textual>=0.47.0",
+    "platformdirs>=4.0.0",
+    "python-dotenv>=1.0.0",
+    "openpyxl>=3.1.0",  # For future Excel import
+]
+
+[project.scripts]
+btask = "btask.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

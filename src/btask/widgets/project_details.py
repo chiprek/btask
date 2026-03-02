@@ -1,8 +1,9 @@
-from config import BTaskConfig
 from textual import on
 from textual.app import ComposeResult
 from textual.containers import Container, Vertical
 from textual.widgets import DataTable, Label
+
+from btask.config import BTaskConfig
 
 from .pd_menu import PD_Menu
 

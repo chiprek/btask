@@ -1,8 +1,9 @@
-from config import BTaskConfig
 from textual.app import ComposeResult
 from textual.containers import Container
 from textual.message import Message
 from textual.widgets import Label, ListItem, ListView
+
+from btask.config import BTaskConfig
 
 
 class Sidebar(Container):

@@ -48,6 +48,6 @@ class AddKitDialog(ModalScreen):
             return
         self.dismiss(kit_data)
 
-        @on(Button.Pressed, "#cancel-kit")
-        def handle_cancel(self) -> None:
-            self.dismiss(None)
+    @on(Button.Pressed, "#cancel-kit")
+    def handle_cancel(self) -> None:
+        self.dismiss(None)

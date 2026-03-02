@@ -1,8 +1,9 @@
-from config import BTaskConfig
 from textual import on, work
 from textual.app import ComposeResult
 from textual.containers import Container, HorizontalGroup
 from textual.widgets import Button, DataTable
+
+from btask.config import BTaskConfig
 
 from .add_kit_dialog import AddKitDialog
 from .confirm_dialog import ConfirmDialog

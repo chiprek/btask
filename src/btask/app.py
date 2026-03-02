@@ -5,8 +5,9 @@ from textual.widgets import (
     Footer,
     Header,
 )
-from widgets.project_details import ProjectDetails
-from widgets.sidebar import Sidebar
+
+from btask.widgets.project_details import ProjectDetails
+from btask.widgets.sidebar import Sidebar
 
 
 class BTaskApp(App[None]):
@@ -43,9 +44,9 @@ class BTaskApp(App[None]):
     @work
     async def action_open_admin_menu(self) -> None:
         """Open admin menu after PIN verification"""
-        from config import BTaskConfig
-        from widgets.admin_dialog import AdminMenu
-        from widgets.pin_prompt import PinPrompt
+        from btask.config import BTaskConfig
+        from btask.widgets.admin_dialog import AdminMenu
+        from btask.widgets.pin_prompt import PinPrompt
 
         entered_pin = await self.push_screen_wait(PinPrompt())
 

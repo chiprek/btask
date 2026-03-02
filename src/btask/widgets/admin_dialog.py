@@ -29,7 +29,7 @@ class AdminMenu(ModalScreen):
 
     @work
     async def add_project_workflow(self) -> None:
-        from config import BTaskConfig
+        from btask.config import BTaskConfig
 
         from .sidebar import Sidebar
 
@@ -69,7 +69,7 @@ class AdminMenu(ModalScreen):
 
     @work
     async def delete_project_workflow(self) -> None:
-        from config import BTaskConfig
+        from btask.config import BTaskConfig
 
         from .confirm_dialog import ConfirmDialog
         from .delete_project_dialog import DeleteProjectDialog
@@ -136,7 +136,7 @@ class AdminMenu(ModalScreen):
 
     @work
     async def archive_project_worflow(self) -> None:
-        from config import BTaskConfig
+        from btask.config import BTaskConfig
 
         from .archive_project_dialog import ArchiveProjectDialog
         from .confirm_dialog import ConfirmDialog

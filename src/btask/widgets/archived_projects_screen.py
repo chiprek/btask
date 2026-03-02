@@ -23,7 +23,7 @@ class ArchivedProjectsScreen(ModalScreen):
         self.load_archived_projects()
 
     def load_archived_projects(self) -> None:
-        from config import BTaskConfig
+        from btask.config import BTaskConfig
 
         config = BTaskConfig()
         all_projects = config.load_projects()
@@ -46,7 +46,7 @@ class ArchivedProjectsScreen(ModalScreen):
     async def unarchive_workflow(self) -> None:
         # unarchive the selected project
 
-        from config import BTaskConfig
+        from btask.config import BTaskConfig
 
         from .confirm_dialog import ConfirmDialog
         from .sidebar import Sidebar

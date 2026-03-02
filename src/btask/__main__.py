@@ -1,4 +1,4 @@
-from app import BTaskApp
+from btask.app import BTaskApp
 
 
 def main():
